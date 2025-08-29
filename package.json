@@ -2,7 +2,8 @@
   "dependencies": {
     "body-parser": "^2.2.0",
     "dotenv": "^17.2.1",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "morgan": "^1.10.1"
   },
   "name": "movie_api",
   "version": "1.0.0",
@@ -12,5 +13,14 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/annapgsm/movie_api.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/annapgsm/movie_api/issues"
+  },
+  "homepage": "https://github.com/annapgsm/movie_api#readme"
 }
