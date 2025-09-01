@@ -6,9 +6,131 @@
   <title>Movie API Documentation</title>
 </head>
 <body>
-  <h1>Movie API Documentation</h1>
-  <p>This API lets you access movie data.</p>
+  <h1>Movie API Endpoints</h1>
+
+  <table border="1" cellpadding="8" cellspacing="0">
+    <tr>
+      <th>Endpoint</th>
+      <th>Description</th>
+      <th>Method</th>
+      <th>URL</th>
+      <th>URL / Query Parameters</th>
+      <th>Request Body</th>
+      <th>Response</th>
+    </tr>
+
+    <!-- Get all movies -->
+    <tr>
+      <td>Get All Movies</td>
+      <td>Returns a list of all movie objects with details such as Title, Year, Description, Director, and Genre</td>
+      <td>GET</td>
+      <td>/movies</td>
+      <td>None</td>
+      <td>None</td>
+      <td><pre>    [
+        {
+            "Id": 1,
+            "Title": "Psycho",
+            "Year": 1960,
+            "Description": "A secretary on the run checks into a motel run by a disturbed man with deadly secrets.",
+            "Director": "Alfred Hitchcock",
+            "Genre": "Horror"
+        },
+        {
+            "Id": 2,
+            "Title": "Nightcrawler",
+            "Year": 2014,
+            "Description": "An ambitious man dives into the dark world of crime journalism in Los Angeles.",
+            "Director": "Dan Gilroy",
+            "Genre": "Thriller"
+        }
+      ]</pre></td>
+    </tr>
+
+    <!-- Get movie by title -->
+    <tr>
+      <td>Get Movie by Title</td>
+      <td>Returns data for a single movie identified by its Title</td>
+      <td>GET</td>
+      <td>/movies/:title</td>
+      <td><code>:title</code> (string, required)</td>
+      <td>None</td>
+      <td><pre>    {
+        "Id": 9,
+        "Title": "Parasite",
+        "Year": 2019,
+        "Description": "A poor family infiltrates a wealthy household, leading to shocking consequences.",
+        "Director": "Bong Joon-ho",
+        "Genre": "Thriller"
+    }</pre></td>
+    </tr>
+
+    <!-- Create user -->
+    <tr>
+      <td>Create User</td>
+      <td>Adds a new user to the system with a unique ID, name, and empty favoriteMovies array</td>
+      <td>POST</td>
+      <td>/users</td>
+      <td>None</td>
+      <td><pre>    {
+        "name": "Kim"
+      }</pre></td>
+      <td><pre>    {
+        "id": "uuid-generated",
+        "name": "Kim",
+        "favoriteMovies": []
+      }</pre></td>
+    </tr>
+
+    <!-- Update user -->
+    <tr>
+      <td>Update User</td>
+      <td>Updates the name of an existing user by ID</td>
+      <td>PUT</td>
+      <td>/users/:id</td>
+      <td><code>:id</code> (number, required)</td>
+      <td><pre>    {
+        "name": "Kim Updated"
+      }</pre></td>
+      <td><pre>    {
+        "id": 1,
+        "name": "Kim Updated",
+        "favoriteMovies": []
+      }</pre></td>
+    </tr>
+
+    <!-- Add favorite movie -->
+    <tr>
+      <td>Add Favorite Movie</td>
+      <td>Adds a movie title string to a user's favoriteMovies array</td>
+      <td>POST</td>
+      <td>/users/:id/:movieTitle</td>
+      <td><code>:id</code> (number, required), <code>:movieTitle</code> (string, required)</td>
+      <td>None</td>
+      <td><pre>    "Psycho has been added to user 2's array"</pre></td>
+    </tr>
+
+    <!-- Remove favorite movie -->
+    <tr>
+      <td>Remove Favorite Movie</td>
+      <td>Removes a movie title from a user's favoriteMovies array</td>
+      <td>DELETE</td>
+      <td>/users/:id/:movieTitle</td>
+      <td><code>:id</code> (number, required), <code>:movieTitle</code> (string, required)</td>
+      <td>None</td>
+      <td><pre>    "Psycho has been removed from user 2's array"</pre></td>
+    </tr>
+
+    <!-- Delete user -->
+    <tr>
+      <td>Delete User</td>
+      <td>Removes a user by ID from the system</td>
+      <td>DELETE</td>
+      <td>/users/:id</td>
+      <td><code>:id</code> (number, required)</td>
+      <td>None</td>
+      <td><pre>    "user 2 has been deleted"</pre></td>
+    </tr>
+  </table>
 </body>
 </html>
-
-
