@@ -22,27 +22,31 @@
     <!-- Get all movies -->
     <tr>
       <td>Get All Movies</td>
-      <td>Returns a list of all movie objects with details such as Title, Year, Description, Director, and Genre</td>
+      <td>Returns a list of all movies with details such as Title, Year, Description, Director, Genre, Rating, and Featured</td>
       <td>GET</td>
       <td>/movies</td>
       <td>None</td>
       <td>None</td>
-      <td><pre>    [
+      <td><pre>[
         {
-            "Id": 1,
-            "Title": "Psycho",
-            "Year": 1960,
-            "Description": "A secretary on the run checks into a motel run by a disturbed man with deadly secrets.",
-            "Director": "Alfred Hitchcock",
-            "Genre": "Horror"
+          "Id": "68c96f6aa72d81edb9cebea4",
+          "Title": "Se7en",
+          "Year": 1995,
+          "Description": "Two detectives track a serial killer who uses the seven deadly sins.",
+          "Director": "David Fincher",
+          "Genre": "Psychological Thriller",
+          "Rating": 8.6,
+          "Featured": true
         },
         {
-            "Id": 2,
-            "Title": "Nightcrawler",
-            "Year": 2014,
-            "Description": "An ambitious man dives into the dark world of crime journalism in Los Angeles.",
-            "Director": "Dan Gilroy",
-            "Genre": "Thriller"
+          "Id": "68c96f6aa72d81edb9cebea5",
+          "Title": "Psycho",
+          "Year": 1960,
+          "Description": "A secretary on the run checks into a motel run by a disturbed man with deadly secrets.",
+          "Director": "Alfred Hitchcock",
+          "Genre": "Slasher & Crime Thriller",
+          "Rating": 8.5,
+          "Featured": false
         }
       ]</pre></td>
     </tr>
@@ -50,87 +54,154 @@
     <!-- Get movie by title -->
     <tr>
       <td>Get Movie by Title</td>
-      <td>Returns data for a single movie identified by its Title</td>
+      <td>Returns full details for a single movie identified by its title</td>
       <td>GET</td>
       <td>/movies/:title</td>
       <td><code>:title</code> (string, required)</td>
       <td>None</td>
-      <td><pre>    {
-        "Id": 9,
-        "Title": "Parasite",
-        "Year": 2019,
-        "Description": "A poor family infiltrates a wealthy household, leading to shocking consequences.",
-        "Director": "Bong Joon-ho",
-        "Genre": "Thriller"
-    }</pre></td>
+      <td><pre>{
+        "Id": "68c96f6aa72d81edb9cebea5",
+        "Title": "Psycho",
+        "Year": 1960,
+        "Description": "A secretary on the run checks into a motel run by a disturbed man with deadly secrets.",
+        "Director": "Alfred Hitchcock",
+        "Genre": "Slasher & Crime Thriller",
+        "Rating": 8.5,
+        "Featured": false
+      }</pre></td>
+    </tr>
+
+    <!-- Get movies by genre -->
+    <tr>
+      <td>Get Movies by Genre</td>
+      <td>Returns all movies of a certain genre</td>
+      <td>GET</td>
+      <td>/genres/:name/movies</td>
+      <td><code>:name</code> (string, required)</td>
+      <td>None</td>
+      <td><pre>[
+        {
+          "Id": "68c96f6aa72d81edb9cebea4",
+          "Title": "Se7en",
+          "Year": 1995,
+          "Director": "David Fincher",
+          "Rating": 8.6
+        },
+        {
+          "Id": "68c96f6aa72d81edb9cebead",
+          "Title": "The Shining",
+          "Year": 1980,
+          "Director": "Stanley Kubrick",
+          "Rating": 8.4
+        }
+      ]</pre></td>
+    </tr>
+
+    <!-- Get genre by name -->
+    <tr>
+      <td>Get Genre by Name</td>
+      <td>Returns details about a genre</td>
+      <td>GET</td>
+      <td>/genres/:name</td>
+      <td><code>:name</code> (string, required)</td>
+      <td>None</td>
+      <td><pre>{
+        "Name": "Psychological Thriller",
+        "Description": "Focuses on paranoia, distorted reality, and the human mind."
+      }</pre></td>
+    </tr>
+
+    <!-- Get director by name -->
+    <tr>
+      <td>Get Director by Name</td>
+      <td>Returns bio, birth year, death year, and optionally movies by that director</td>
+      <td>GET</td>
+      <td>/directors/:name</td>
+      <td><code>:name</code> (string, required)</td>
+      <td>None</td>
+      <td><pre>{
+        "Name": "Alfred Hitchcock",
+        "Bio": "English filmmaker known for suspenseful thrillers and innovative camera techniques.",
+        "BirthYear": 1899,
+        "DeathYear": 1980
+      }</pre></td>
     </tr>
 
     <!-- Create user -->
     <tr>
       <td>Create User</td>
-      <td>Adds a new user to the system with a unique ID, name, and empty favoriteMovies array</td>
+      <td>Adds a new user with name, email, birthday, and empty favoriteMovies array</td>
       <td>POST</td>
       <td>/users</td>
       <td>None</td>
-      <td><pre>    {
-        "name": "Kim"
+      <td><pre>{
+        "Username": "Kim",
+        "Email": "kim@example.com",
+        "Birthday": "1985-02-19"
       }</pre></td>
-      <td><pre>    {
-        "id": "uuid-generated",
-        "name": "Kim",
-        "favoriteMovies": []
+      <td><pre>{
+        "Id": "uuid-generated",
+        "Username": "Kim",
+        "Email": "kim@example.com",
+        "Birthday": "1985-02-19",
+        "FavoriteMovies": []
       }</pre></td>
     </tr>
 
     <!-- Update user -->
     <tr>
       <td>Update User</td>
-      <td>Updates the name of an existing user by ID</td>
+      <td>Updates a user's name, email, or birthday by ID</td>
       <td>PUT</td>
       <td>/users/:id</td>
-      <td><code>:id</code> (number, required)</td>
-      <td><pre>    {
-        "name": "Kim Updated"
+      <td><code>:id</code> (string, required)</td>
+      <td><pre>{
+        "Username": "Kim Updated",
+        "Email": "kim.updated@example.com",
+        "Birthday": "1985-02-20"
       }</pre></td>
-      <td><pre>    {
-        "id": 1,
-        "name": "Kim Updated",
-        "favoriteMovies": []
+      <td><pre>{
+        "Id": "uuid-generated",
+        "Username": "Kim Updated",
+        "Email": "kim.updated@example.com",
+        "Birthday": "1985-02-20",
+        "FavoriteMovies": []
       }</pre></td>
     </tr>
 
     <!-- Add favorite movie -->
     <tr>
       <td>Add Favorite Movie</td>
-      <td>Adds a movie title string to a user's favoriteMovies array</td>
+      <td>Adds a movie reference to a user's favoriteMovies array</td>
       <td>POST</td>
-      <td>/users/:id/:movieTitle</td>
-      <td><code>:id</code> (number, required), <code>:movieTitle</code> (string, required)</td>
+      <td>/users/:id/favorites/:movieId</td>
+      <td><code>:id</code> (string, required), <code>:movieId</code> (string, required)</td>
       <td>None</td>
-      <td><pre>    "Psycho has been added to user 2's array"</pre></td>
+      <td><pre>"Movie has been added to user's favorites"</pre></td>
     </tr>
 
     <!-- Remove favorite movie -->
     <tr>
       <td>Remove Favorite Movie</td>
-      <td>Removes a movie title from a user's favoriteMovies array</td>
+      <td>Removes a movie reference from a user's favoriteMovies array</td>
       <td>DELETE</td>
-      <td>/users/:id/:movieTitle</td>
-      <td><code>:id</code> (number, required), <code>:movieTitle</code> (string, required)</td>
+      <td>/users/:id/favorites/:movieId</td>
+      <td><code>:id</code> (string, required), <code>:movieId</code> (string, required)</td>
       <td>None</td>
-      <td><pre>    "Psycho has been removed from user 2's array"</pre></td>
+      <td><pre>"Movie has been removed from user's favorites"</pre></td>
     </tr>
 
     <!-- Delete user -->
     <tr>
       <td>Delete User</td>
-      <td>Removes a user by ID from the system</td>
+      <td>Removes a user by ID</td>
       <td>DELETE</td>
       <td>/users/:id</td>
-      <td><code>:id</code> (number, required)</td>
+      <td><code>:id</code> (string, required)</td>
       <td>None</td>
-      <td><pre>    "user 2 has been deleted"</pre></td>
+      <td><pre>"User has been deleted"</pre></td>
     </tr>
+
   </table>
 </body>
 </html>
