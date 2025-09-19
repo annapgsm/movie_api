@@ -1,254 +1,120 @@
 //Import and Setup
-const express = require('express'),
-  app = express(),
-  bodyParser = require('body-parser'),
-  uuid = require('uuid'),
-  morgan = require('morgan');
+const express = require('express');
+const bodyParser = require('body-parser');
+const uuid = require('uuid');
+const morgan = require('morgan');
+const mongoose = require('mongoose');
+const Models = require('./models.js');
+
+const Movies = Models.Movie;
+const Users = Models.User;
+
+mongoose.connect('mongodb://localhost:27017/movieDB', { useNewUrlParser: true, useUnifiedTopology: true });
+
+const app = express();
 
 //Middleware
 app.use(bodyParser.json());
 app.use(morgan('dev'));
 app.use(express.static('public'));
 
-
-//Data
-const users = [
-  {
-    id: 1,
-    name: "Kim",
-    favoriteMovies: []
-  },
-  {
-    id: 2,
-    name: "Joe",
-    favoriteMovies:["Psycho"]
-  }
-];
-
-const movies = [
-  { 
-    "Id": 1, 
-    "Title": "Psycho", 
-    "Year": 1960,
-    "Description": "A secretary on the run checks into a motel run by a disturbed man with deadly secrets.",
-    "Director": {
-      "Name": "Alfred Hitchcock",
-      "Bio": "A master of suspense known for pioneering techniques in thriller and horror cinema.",
-      "Born": "1899-08-13"
-    },
-    "Genre": {
-      "Name": "Horror",
-      "Description": "A genre designed to scare, shock, or unsettle the audience, often featuring supernatural or violent elements."
-    }
-  },
-  { 
-    "Id": 2, 
-    "Title": "Nightcrawler", 
-    "Year": 2014,
-    "Description": "An ambitious man dives into the dark world of crime journalism in Los Angeles.", 
-    "Director": {
-      "Name": "Dan Gilroy",
-      "Bio": "An American screenwriter and director known for exploring morally complex characters.",
-      "Born": "1959-06-24"
-    },
-    "Genre": {
-      "Name": "Thriller",
-      "Description": "A genre focused on suspense, tension, and high-stakes situations that keep the audience on edge."
-    }
-  },
-  { 
-    "Id": 3, 
-    "Title": "The First Omen", 
-    "Year": 2024,
-    "Description": "A young woman uncovers terrifying forces while confronting her own faith.", 
-    "Director": {
-      "Name": "Arkasha Stevenson",
-      "Bio": "A contemporary filmmaker exploring horror and supernatural narratives.",
-      "Born": "1985-03-10"
-    },
-    "Genre": {
-      "Name": "Horror",
-      "Description": "A genre designed to scare, shock, or unsettle the audience, often featuring supernatural or violent elements."
-    }
-  },
-  { 
-    "Id": 4, 
-    "Title": "Oddity", 
-    "Year": 2024,
-    "Description": "After her twin's murder, a blind woman uses her psychic gift to uncover the truth.", 
-    "Director": {
-      "Name": "Damien McCarthy",
-      "Bio": "A director focused on psychological horror and suspense-driven stories.",
-      "Born": "1978-11-02"
-    },
-    "Genre": {
-      "Name": "Horror",
-      "Description": "A genre designed to scare, shock, or unsettle the audience, often featuring supernatural or violent elements."
-    }
-  },
-  { 
-    "Id": 5, 
-    "Title": "Final Destination", 
-    "Year": 2000,
-    "Description": "A teenager cheats death, only for fate to claim his friends one by one.", 
-    "Director": {
-      "Name": "James Wong",
-      "Bio": "A filmmaker known for horror films with creative death sequences and suspense.",
-      "Born": "1959-05-20"
-    },
-    "Genre": {
-      "Name": "Horror",
-      "Description": "A genre designed to scare, shock, or unsettle the audience, often featuring supernatural or violent elements."
-    }
-  },
-  { 
-    "Id": 6, 
-    "Title": "The Substance", 
-    "Year": 2024,
-    "Description": "A fading celebrity tries a mysterious substance that promises eternal youth—with horrific costs.", 
-    "Director": {
-      "Name": "Coralie Fargeat",
-      "Bio": "A French director acclaimed for stylish and intense horror-thrillers.",
-      "Born": "1980-11-15"
-    },
-    "Genre": {
-      "Name": "Horror",
-      "Description": "A genre designed to scare, shock, or unsettle the audience, often featuring supernatural or violent elements."
-    }
-  },
-  { 
-    "Id": 7, 
-    "Title": "Prisoners", 
-    "Year": 2013,
-    "Description": "A desperate father takes matters into his own hands when his daughter goes missing.", 
-    "Director": {
-      "Name": "Denis Villeneuve",
-      "Bio": "A Canadian director known for gripping thrillers and visually stunning storytelling.",
-      "Born": "1967-10-03"
-    },
-    "Genre": {
-      "Name": "Thriller",
-      "Description": "A genre focused on suspense, tension, and high-stakes situations that keep the audience on edge."
-    }
-  },
-  { 
-    "Id": 8, 
-    "Title": "Identity", 
-    "Year": 2025,
-    "Description": "Strangers stranded at a motel realize their fates are chillingly connected.", 
-    "Director": {
-      "Name": "James Mangold",
-      "Bio": "An American filmmaker known for character-driven thrillers and dramas.",
-      "Born": "1963-12-16"
-    },
-    "Genre": {
-      "Name": "Thriller",
-      "Description": "A genre focused on suspense, tension, and high-stakes situations that keep the audience on edge."
-    }
-  },
-  { 
-    "Id": 9, 
-    "Title": "Parasite", 
-    "Year": 2019,
-    "Description": "A poor family infiltrates a wealthy household, leading to shocking consequences.", 
-    "Director": {
-      "Name": "Bong Joon-ho",
-      "Bio": "A South Korean director celebrated for social commentary in suspenseful and genre-bending films.",
-      "Born": "1969-09-14"
-    },
-    "Genre": {
-      "Name": "Thriller",
-      "Description": "A genre focused on suspense, tension, and high-stakes situations that keep the audience on edge."
-    }
-  },
-  { 
-    "Id": 10, 
-    "Title": "The Visit", 
-    "Year": 2015,
-    "Description": "Two siblings visit their grandparents only to discover something deeply unsettling.", 
-    "Director": {
-      "Name": "M. Night Shyamalan",
-      "Bio": "An American filmmaker famous for twist endings and supernatural thrillers.",
-      "Born": "1970-08-06"
-    },
-    "Genre": {
-      "Name": "Horror",
-      "Description": "A genre designed to scare, shock, or unsettle the audience, often featuring supernatural or violent elements."
-    }
-  }
-];
-
-
-
 //Create
 app.post('/users', (req, res) => {
-  const newUser = req.body;
-
-  if (newUser.name) {
-    newUser.id = uuid.v4();
-    users.push(newUser);
-    res.status(201).json(newUser)
-  } else {
-    res.status(400).send('users need names')
-  }
-})
-
-//Update
-app.put('/users/:id', (re, res) => {
-  const { id } = req.params;
-  const updatedUser = req.body;
-
-  let user = users.find( user => user.id == id); 
-
-  if (user) {
-    user.name = updatedUser.name;
-    res.status(200).json(user);
-  } else {
-    res.status(400).send('no such user');
-  }
-})
+  Users.findOne({ Username: req.params.Username})
+    .then((user) => {
+      if (user) {
+        return res.status(400).send(req.body.Username + 'already exists')
+      } else {
+        Users.create({
+          Username: req.body.Username,
+          Password: req.body.Password,
+          Email: req.body.Email,
+          Birthhday: req.body.Birthday,
+        })
+          .then((user) => {
+            res.status(201).json(user);
+          })
+          .catch((error) => {
+            console.error(error);
+            res.status(500).send('Error: ' + error);
+          });
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
+});
 
 //Create
-app.post('/users/:id/:movieTitle', (req, res) => {
-  const { id, movieTitle } = req.params;
+app.post('/users/:Username/movies/:MovieID', (req, res) => {
+  Users.findOneAndUpdate(
+    { Username: req.params.Username },
+    { $push: { FavoriteMovies: req.params.MovieID } },
+    { new: true }
+  )
+    .then((updatedUser) => res.json(updatedUser))
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
+});
 
-  let user = users.find( user => user.id == id);
-
-  if (user) {
-    user.favoriteMovies.push(movieTitle);
-    res.status(200).send(`${movieTitle} has been added to user ${id}'s array`);;
-  } else {
-    res.status(400).send('no such user');
-  }
-})
+//Update
+app.put('/users/:Username', (req, res) => {
+ Users.findOneAndUpdate(
+    { Username: req.params.Username },
+    {
+        $set: {
+          Username: req.body.Username,
+          Password: req.body.Password,
+          Email: req.body.Email,
+          Birthday: req.body.Birthday,
+        },
+    },
+    { new: true },
+ )
+ .then((updatedUser) => {
+    if (!updatedUser) {
+      return res.status(404).send('User not found');
+    }
+    res.json(updatedUser);
+  })
+  .catch((err) => {
+    console.error(err);
+    res.status(500).send('Error: ' + err);
+  });
+});
 
 //Delete
-app.delete('/users/:id/:movieTitle', (req, res) => {
-  const { id, movieTitle } = req.params;
-
-  let user = users.find( user => user.id == id);
-
-  if (user) {
-    user.favoriteMovies = user.favoriteMovies.filter( title => title !== movieTitle);
-    res.status(200).send(`${movieTitle} has been removed from user ${id}'s array`);;
-  } else {
-    res.status(400).send('no such user');
-  }
-})
+app.delete('/users/:Username/movies/:MovieID', (req, res) => {
+  Users.findOneAndUpdate(
+    { Username: req.params.Username },
+    { $pull: { FavoriteMovies: req.params.MovieID } },
+    { new: true }
+  )
+    .then((updatedUser) => res.json(updatedUser))
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
+});
 
 //Delete
-app.delete('/users/:id', (req, res) => {
-  const { id } = req.params;
-
-  let user = users.find( user => user.id == id);
-
-  if (user) {
-    users = users.filter( user => user.id != id);
-    res.status(200).send(`user ${id} has been deleted`);;
-  } else {
-    res.status(400).send('no such user');
-  }
-})
+app.delete('/users/:Username', (req, res) => {
+  Users.findOneAndDelete({ Username: req.params.Username })
+    .then((user) => {
+      if (!user) {
+        res.status(404).send(req.params.Username + ' was not found');
+      } else {
+        res.status(200).send(req.params.Username + ' was deleted');
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
+});
 
 //Read
 app.get('/', (req, res) => {
@@ -256,40 +122,97 @@ app.get('/', (req, res) => {
 });
 
 app.get('/movies', (req, res) => {
-  res.status(200).json(movies);
+  Movies.find()
+    .then((movies) => {
+        res.status(201).json(movies);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    })
 });
 
-app.get('/movies/directors/:directorName', (req, res) => {
-  const { directorName } = req.params;
-  const director = movies.find( movie => movie.Director.Name === directorName ).Director;
+/*
+app.get('/movies/directors/:directorName', (req, res) => {  
+  Directors.findOne( { Name: req.params.name })
+    .then((director) => {
+      res.json(director);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
+}); 
+*/
 
-  if (director) {
-    res.status(200).json(director);
-  } else {
-    res.status(400).send('no such director');
-  }
+app.get('/movies/directors/:directorName', (req, res) => {
+  const directorName = req.params.directorName;
+
+  Movies.findOne({ 'Director.Name': new RegExp('^' + directorName + '$', 'i') })
+    .then((movie) => {
+      if (movie) {
+        res.json(movie.Director); // return only the director info
+      } else {
+        res.status(404).send('Director not found');
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
 });
 
 app.get('/movies/genre/:genreName', (req, res) => {
-  const { genreName } = req.params;
-  const moviesInGenre = movies.find( movie => movie.Genre === genreName ).Genre;
+  const genreName = req.params.genreName;
 
-  if (genre) {
-    res.status(200).json(genre);
-  } else {
-    res.status(400).send('no such genre');
-  }
+  Movies.find({ 'Genre.Name': genreName }) // look inside the nested Genre object
+    .then((movies) => {
+      if (movies.length === 0) {
+        return res.status(404).send('No movies found for genre: ' + genreName);
+      }
+      res.json(movies);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
 });
 
-app.get('/movies/:title', (req, res) => {
-  const { title } = req.params;
-  const movie = movies.find( movie => movie.Title === title );
 
-  if (movie) {
-    res.status(200).json(movie);
-  } else {
-    res.status(400).send('no such movie')
-  }
+
+/*
+app.get('/movies/genre/:genreName', (req, res) => {
+  Genres.findOne( { Name: req.params.genreName })
+    .then((genre) => {
+      res.json(genre.Description);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
+});
+*/
+
+app.get('/movies/:title', (req, res) => {
+  Movies.findOne( { Title: req.params.title })
+    .then((movie) => {
+      res.json(movie);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
+});
+
+app.get('/users', (req, res) => {
+  Users.find()
+    .then(function (users) {
+      res.status(201).json(users);
+    })
+    .catch(function (err) {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
 });
 
 app.get('/documentation', (req, res) => {
