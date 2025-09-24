@@ -72,14 +72,16 @@ app.post('/users', (req, res) => {
 }); 
 */
 
-app.post('/users', async (req, res) => {
+app.post('/users', 
   //Validation Logic
   [
     check('Username', 'Username is required').isLength({min: 5}),
     check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
     check('Password', 'Password is required').not().isEmpty(),
     check('Email', 'Email does not appear to be valid').isEmail()
-  ], async (req, res) => {
+  ], 
+  
+  async (req, res) => {
 
   // check the validation object for errors
   let errors = validationResult(req);
