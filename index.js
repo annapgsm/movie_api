@@ -6,6 +6,8 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const Models = require('./models.js');
 const passport = require('passport');
+const { check, validationResult } = require('express-validator');
+const cors = require('cors');
 
 require('./passport');
 
@@ -17,14 +19,13 @@ const auth = require('./auth')(app);
 const Movies = Models.Movie;
 const Users = Models.User;
 
-mongoose.connect('mongodb://localhost:27017/movieDB', 
-  { 
-    useNewUrlParser: true, 
-    useUnifiedTopology: true 
-  });
+mongoose.connect('mongodb://localhost:27017/movieDB', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
 
-const cors = require('cors');
-let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
+
+let allowedOrigins = ['http://localhost:8080'];
 
 app.use(cors({
   origin: (origin, callback) => {
@@ -83,39 +84,40 @@ app.post('/users',
   
   async (req, res) => {
 
-  // check the validation object for errors
-  let errors = validationResult(req);
+    // check the validation object for errors
+    let errors = validationResult(req);
 
-  if (!errors.isEmpty()) {
-    return res.status(422).json({ errors: errors.array() });
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+
+    let hashedPassword = Users.hashPassword(req.body.Password);
+    await Users.findOne({ Username: req.body.Username }) // Search to see if a user with the requested username already exists
+      .then((user) => {
+        if (user) {
+        //If the user is found, send a response that it already exists
+          return res.status(400).send(req.body.Username + ' already exists');
+        } else {
+          Users
+            .create({
+              Username: req.body.Username,
+              Password: hashedPassword,
+              Email: req.body.Email,
+              Birthday: req.body.Birthday
+            })
+            .then((user) => { res.status(201).json(user) })
+            .catch((error) => {
+              console.error(error);
+              res.status(500).send('Error: ' + error);
+            });
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        res.status(500).send('Error: ' + error);
+      });
   }
-
-  let hashedPassword = Users.hashPassword(req.body.Password);
-  await Users.findOne({ Username: req.body.Username }) // Search to see if a user with the requested username already exists
-    .then((user) => {
-      if (user) {
-      //If the user is found, send a response that it already exists
-        return res.status(400).send(req.body.Username + ' already exists');
-      } else {
-        Users
-          .create({
-            Username: req.body.Username,
-            Password: hashedPassword,
-            Email: req.body.Email,
-            Birthday: req.body.Birthday
-          })
-          .then((user) => { res.status(201).json(user) })
-          .catch((error) => {
-            console.error(error);
-            res.status(500).send('Error: ' + error);
-          });
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-      res.status(500).send('Error: ' + error);
-    });
-});
+);
 
 //Create
 app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), 
