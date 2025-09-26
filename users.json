@@ -1,0 +1,12 @@
+{"_id":{"$oid":"68c9701aa72d81edb9cebeae"},"Username":"horrorFan123","Password":"securePass1","Email":"horrorfan@example.com","Birthday":{"$date":"1992-07-14T00:00:00Z"},"FavoriteMovies":[{"$oid":"68c96f6aa72d81edb9cebea4"},{"$oid":"68c96f6aa72d81edb9cebead"},{"$oid":"68c96f6aa72d81edb9cebea7"}]}
+{"_id":{"$oid":"68c9701aa72d81edb9cebeaf"},"Username":"thrillerQueen","Password":"securePass2","Email":"thriller@example.com","Birthday":{"$date":"1985-02-19T00:00:00Z"},"FavoriteMovies":[{"$oid":"68c96f6aa72d81edb9cebea5"},{"$oid":"68c96f6aa72d81edb9cebea7"}]}
+{"_id":{"$oid":"68c9701aa72d81edb9cebeb0"},"Username":"undeadLover","Password":"securePass3","Email":"undead@example.com","Birthday":{"$date":"1999-11-03T00:00:00Z"},"FavoriteMovies":[{"$oid":"68c96f6aa72d81edb9cebeab"},{"$oid":"68c96f6aa72d81edb9cebeac"}]}
+{"_id":{"$oid":"68c9701aa72d81edb9cebeb1"},"Username":"classicHitchcock","Password":"securePass4","Email":"hitchcockfan@example.com","Birthday":{"$date":"1978-05-22T00:00:00Z"},"FavoriteMovies":[{"$oid":"68c96f6aa72d81edb9cebea5"},{"$oid":"68c96f6aa72d81edb9cebea6"}]}
+{"_id":{"$oid":"68d11780205cb80d41fd9aa8"},"Username":"thegreatpapyrus","Password":"spagetti","Email":"thegreatpapyrus@gmail.com","FavoriteMovies":[],"__v":0}
+{"_id":{"$oid":"68d117d3205cb80d41fd9aab"},"Username":"thegreatpapyrus","Password":"spagetti","Email":"thegreatpapyrus@gmail.com","FavoriteMovies":[],"__v":0}
+{"_id":{"$oid":"68d117fb205cb80d41fd9aae"},"Username":"thegreatpapyrus","Password":"spagetti","Email":"thegreatpapyrus@gmail.com","FavoriteMovies":[],"__v":0}
+{"_id":{"$oid":"68d11842205cb80d41fd9ab1"},"Username":"thegreatpapyrus","Password":"spagetti","Email":"thegreatpapyrus@gmail.com","FavoriteMovies":[],"__v":0}
+{"_id":{"$oid":"68d11876205cb80d41fd9ab4"},"Username":"thegreatpapyrus","Password":"spagetti","Email":"thegreatpapyrus@gmail.com","FavoriteMovies":[],"__v":0}
+{"_id":{"$oid":"68d118a5205cb80d41fd9ab8"},"Username":"thegreatpapyrus","Password":"spagetti","Email":"thegreatpapyrus@gmail.com","FavoriteMovies":[],"__v":0}
+{"_id":{"$oid":"68d119fb205cb80d41fd9abb"},"Username":"thegreatpapyrus","Password":"spagetti","Email":"thegreatpapyrus@gmail.com","FavoriteMovies":[],"__v":0}
+{"_id":{"$oid":"68d3cdb971595694eb43df11"},"Username":"testuser","Password":"$2b$10$hRc29m1atworuBUoXT/wceeGkJbEJImkdurO7LDPf.7hHBJPNIlR.","Email":"test123@gmail.com","Birthday":{"$date":"1985-06-09T00:00:00Z"},"FavoriteMovies":[],"__v":0}
