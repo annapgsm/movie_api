@@ -129,7 +129,7 @@ app.post('/users',
 );
 
 //Create
-app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), 
+app.post('/users/:Username/movies/:MovieID', 
 (req, res) => {
   Users.findOneAndUpdate(
     { Username: req.params.Username },
