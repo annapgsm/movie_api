@@ -36,7 +36,7 @@ mongoose.connect( process.env.CONNECTION_URI,
 
 let allowedOrigins = ['https://movie-api-o14j.onrender.com','http://localhost:8080', 'http://localhost:1234'];
 
-app.use(cors({
+app.use(cors(/*{
   origin: (origin, callback) => {
     if(!origin) return callback(null, true);
     if(allowedOrigins.indexOf(origin) === -1){ // If a specific origin isn’t found on the list of allowed origins
@@ -45,7 +45,7 @@ app.use(cors({
     }
     return callback(null, true);
   }
-}));
+}*/));
 
 //Middleware
 app.use(bodyParser.json());
