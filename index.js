@@ -34,7 +34,7 @@ mongoose.connect( process.env.CONNECTION_URI,
 );
 
 
-let allowedOrigins = ['http://localhost:8080', 'http://localhost:1234'];
+let allowedOrigins = ['https://movie-api-o14j.onrender.com','http://localhost:8080', 'http://localhost:1234'];
 
 app.use(cors({
   origin: (origin, callback) => {
