@@ -14,7 +14,7 @@ require('./passport');
 const app = express();
 
 //CORS
-let allowedOrigins = ['https://movie-api-o14j.onrender.com','http://localhost:8080', 'http://localhost:1234'];
+let allowedOrigins = ['https://movie-api-o14j.onrender.com','http://localhost:8080', 'https://darkframe.netlify.app'];
 
 app.use(cors({
   origin: (origin, callback) => {
